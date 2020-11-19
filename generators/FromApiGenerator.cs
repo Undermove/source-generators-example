@@ -13,6 +13,8 @@ namespace MyGenerator
     [Generator]
     public class FromApiGenerator : ISourceGenerator
     {
+        private HttpClient _apiClient;
+
         public void Execute(GeneratorExecutionContext context)
         {
             // begin creating the source we'll inject into the users compilation
@@ -22,12 +24,7 @@ namespace MyGenerator
                 {
                 ");
 
-            HttpClient client = new HttpClient()
-            {
-                BaseAddress = new Uri("http://localhost:5000")
-            };
-
-            var apiResponse = client.GetAsync("").Result.Content.ReadAsStringAsync().Result;
+            var apiResponse = _apiClient.GetAsync("").Result.Content.ReadAsStringAsync().Result;
             
             sourceBuilder.Append(apiResponse);
             
@@ -41,7 +38,10 @@ namespace MyGenerator
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            //throw new NotImplementedException();
+            _apiClient = new HttpClient()
+            {
+                BaseAddress = new Uri("http://localhost:5000")
+            };
         }
     }
 }

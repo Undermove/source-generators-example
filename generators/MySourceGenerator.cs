@@ -48,7 +48,7 @@ namespace MyGenerator
 
         public void Initialize(GeneratorInitializationContext context)
         {
-            //throw new NotImplementedException();
+            //todo implement
         }
     }
 }
